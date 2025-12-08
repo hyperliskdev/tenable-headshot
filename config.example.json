@@ -1,0 +1,59 @@
+{
+  "tenable": {
+    "access_key_env": "TENABLE_ACCESS_KEY",
+    "secret_key_env": "TENABLE_SECRET_KEY"
+  },
+  "rules": [
+    {
+      "name": "DHCP Servers",
+      "description": "Mark assets that appear to be DHCP servers",
+      "enabled": true,
+      "custom_attribute": {
+        "name": "AssetCriticality",
+        "value": "DHCP",
+        "description": "DHCP server identification"
+      },
+      "plugin_filters": {
+        "plugin_id": 121509
+      }
+    },
+    {
+      "name": "DNS Servers",
+      "description": "Mark assets that appear to be DHCP servers",
+      "enabled": true,
+      "custom_attribute": {
+        "name": "AssetCriticality",
+        "value": "DNS",
+        "description": "DNS server identification"
+      },
+      "plugin_filters": [
+        {
+          "plugin_id": 44871,
+          "output_contains": "Active Directory Federation Services"
+        },
+        {
+          "plugin_id": 8829,
+          "state": "SUCCESS"
+        },
+        {
+          "plugin_id": 1016,
+          "state": "SUCCESS"
+        }
+      ]
+    },
+    {
+      "name": "Domain Controllers",
+      "description": "Mark assets that appear to be Domain Controllers",
+      "enabled": true,
+      "custom_attribute": {
+        "name": "AssetCriticality",
+        "value": "Domain Controller",
+        "description": "Domain Controller identification"
+      },
+      "plugin_filters": {
+        "plugin_id": 10413,
+        "state": "open"
+      }
+    }
+  ]
+}

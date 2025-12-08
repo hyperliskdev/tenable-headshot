@@ -1,0 +1,27 @@
+[project]
+name = "tenable-headshot"
+version = "1.0.0"
+description = "Land critical hits on your vulnerabilities - Automatically update Tenable.io asset custom attributes based on vulnerability plugin filters"
+authors = [{ name = "Carter Tomelnovich (hyperliskdev)", email = "cartertomlenovich@gmail.com" }]
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.8"
+dependencies = [
+    "pytenable>=1.4.0",
+]
+keywords = ["tenable", "vulnerability-management", "security", "asset-management", "asset-criticality"]
+
+[project.urls]
+Homepage = "https://github.com/hyperlisk/tenable-headshot"
+Repository = "https://github.com/hyperlisk/tenable-headshot"
+Issues = "https://github.com/hyperlisk/tenable-headshot/issues"
+
+[project.scripts]
+tenable-headshot = "tenable_headshot.cli:main"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["tenable_headshot", "tenable_headshot.core"]
