@@ -87,6 +87,11 @@ class TenableAssetAttributeManager:
 
         if 'state' in plugin_filter:
             filters.append(('state', 'eq', [plugin_filter['state']]))
+        
+        if 'output_contains' in plugin_filter:
+            # 'output_contains' will be handled separately in the main method
+            pass    
+        
         else:
             # By default, only look at open vulnerabilities
             filters.append(('state', 'eq', ['OPEN']))
@@ -104,14 +109,22 @@ class TenableAssetAttributeManager:
                 {
                     'plugin_id': [19506, 20811],
                     'severity': 'critical',
-                    'plugin_family': 'Windows'
+                    'plugin_family': 'Windows',
+                    'output_contains': 'specific text in output'
                 }
 
                 Multiple filters (OR logic - assets matching ANY filter group):
                 [
-                    {'severity': 'critical', 'plugin_family': 'Windows'},
+                    {'plugin_id': 44871, 'output_contains': 'Active Directory Federation Services'},
                     {'severity': 'critical', 'plugin_family': 'Databases'}
                 ]
+
+                Supported filter keys:
+                - plugin_id: Plugin ID or list of plugin IDs
+                - severity: Severity level (critical, high, medium, low, info)
+                - plugin_family: Plugin family name
+                - state: Vulnerability state (OPEN, REOPENED, FIXED, etc.)
+                - output_contains: Text to search for in plugin output (case-insensitive)
 
         Returns:
             List of asset UUIDs matching the criteria
@@ -144,6 +157,14 @@ class TenableAssetAttributeManager:
                 group_assets = set()
                 for vuln in vulns:
                     if 'asset' in vuln and 'uuid' in vuln['asset']:
+                        # Check if output_contains filter is specified
+                        if 'output_contains' in filter_group:
+                            search_text = filter_group['output_contains'].lower()
+                            # Check if the vulnerability has output that contains the search text
+                            output_text = vuln.get('output', '').lower()
+                            if search_text not in output_text:
+                                continue  # Skip this vulnerability if output doesn't match
+
                         group_assets.add(vuln['asset']['uuid'])
 
                 logger.info(f"Filter group {idx} matched {len(group_assets)} unique assets")

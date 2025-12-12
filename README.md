@@ -1,6 +1,6 @@
 # Tenable Headshot 🎯
 
-**Land critical hits on your vulnerabilities.** Automatically update Tenable.io asset custom attributes based on vulnerability plugin filters using a configuration-driven approach.
+**Land critical hits on your vulnerabilities.** Automatically update Tenable.io asset custom attributes based on findings and asset filters using a configuration-driven approach.
 
 ## Features
 
@@ -8,51 +8,23 @@
 - **Complex plugin filters**: Query by plugin ID, severity, family, and state
 - **AND/OR logic support**: Combine filters with AND logic (single object) or OR logic (array of objects)
 - **Automatic attribute creation**: Creates custom attributes if they don't exist
-- **Multiple rules support**: Process multiple attribute/filter combinations in one run
-- **Selective execution**: Run specific rules or all enabled rules
 - **Dry-run mode**: Preview changes without making updates
-- **Batch processing**: Efficient API usage with batched updates
-- **Comprehensive logging**: Detailed progress and error reporting
-- **Secure credentials**: Environment variable-based authentication
 
 ## Installation
 
-### Option 1: Install as Package (Recommended)
-
+1. Install dependencies:
 ```bash
-# Clone the repository
-git clone https://github.com/yourusername/tenable-headshot.git
-cd tenable-headshot
-
-# Install the package
-pip install -e .
-
-# Now you can run it from anywhere
-tenable-headshot --help
-```
-
-### Option 2: Run Directly
-
-```bash
-# Clone and install dependencies
-git clone https://github.com/yourusername/tenable-headshot.git
-cd tenable-headshot
 pip install -r requirements.txt
-
-# Run directly
-python main.py --help
 ```
 
-## Setup
-
-1. Set up API credentials:
+2. Set up API credentials:
 ```bash
 cp config.example.env .env
 # Edit .env with your Tenable.io API credentials
 source .env
 ```
 
-2. Create configuration file:
+3. Create configuration file:
 ```bash
 cp config.example.json config.json
 # Edit config.json to define your rules
@@ -245,14 +217,10 @@ Each filter group internally uses AND logic, but groups are combined with OR log
 
 ## Usage
 
-> **Note**: Examples below use `tenable-headshot` (if installed) or `python main.py` (if running directly)
-
 ### List Available Rules
 
 View all rules defined in your configuration:
 ```bash
-tenable-headshot --list-rules
-# or
 python main.py --list-rules
 ```
 
@@ -272,8 +240,6 @@ Available rules in configuration:
 
 Process all rules where `"enabled": true`:
 ```bash
-tenable-headshot
-# or
 python main.py
 ```
 
@@ -282,30 +248,30 @@ python main.py
 Execute only specific rules by name:
 ```bash
 # Single rule
-tenable-headshot --rules "Critical Windows Vulnerabilities"
+python main.py --rules "Critical Windows Vulnerabilities"
 
 # Multiple rules
-tenable-headshot --rules "Critical Windows Vulnerabilities" "Database Critical Vulnerabilities"
+python main.py --rules "Critical Windows Vulnerabilities" "Database Critical Vulnerabilities"
 ```
 
 ### Dry Run
 
 Preview what would happen without making changes:
 ```bash
-tenable-headshot --dry-run
+python main.py --dry-run
 ```
 
 ### Use Custom Config File
 
 Specify a different configuration file:
 ```bash
-tenable-headshot --config production-config.json
+python main.py --config production-config.json
 ```
 
 ### Command Line Options
 
 ```
-usage: tenable-headshot [-h] [--config CONFIG] [--rules RULES [RULES ...]] [--dry-run] [--list-rules]
+usage: main.py [-h] [--config CONFIG] [--rules RULES [RULES ...]] [--dry-run] [--list-rules]
 
 Options:
   -h, --help                        Show help message
